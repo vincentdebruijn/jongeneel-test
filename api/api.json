@@ -1,0 +1,835 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Jongeneel webshop Api",
+    "version": "0.0.1",
+    "title": "Jongeneel Api"
+  },
+  "basePath": "/api",
+  "paths": {
+    "/products": {
+      "get": {
+        "summary": "Product list ",
+        "description": "List of products that matches the search term",
+        "tags": [
+          "products"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "description": "Search term for products"
+          },
+          {
+            "in": "category",
+            "name": "category",
+            "description": "Category id to use for filtering."
+          },
+          {
+            "in": "filters",
+            "name": "filters",
+            "description": "Comma separated list of applied filters eg: 'product:Lat,facetLengthDimensions:300cm'"
+          },
+          {
+            "in": "sort",
+            "name": "sort",
+            "description": "Search term for products",
+            "type": "string",
+            "enum": [
+              "relevanceOrdered"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of products",
+            "headers": {
+              "x-count": {
+                "type": "integer",
+                "description": "Total amount of results"
+              }
+            },
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Product"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input value"
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "summary": "Product details",
+        "description": "Details of a product",
+        "tags": [
+          "products"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of products",
+            "schema": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Product"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "variants": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/ProductVariant"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "400": {
+            "description": "Invalid input value"
+          }
+        }
+      }
+    },
+    "/suggestions": {
+      "get": {
+        "summary": "Search suggestions",
+        "description": "List of search suggestions based on search term search term",
+        "tags": [
+          "suggestions"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "description": "Search term for products"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of products",
+            "headers": {
+              "x-count": {
+                "type": "integer",
+                "description": "Total amount of results"
+              }
+            },
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Suggestion"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input value"
+          }
+        }
+      }
+    },
+    "/facets": {
+      "get": {
+        "summary": "Facets list ",
+        "description": "List of all facets for a search term",
+        "tags": [
+          "facets"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "description": "Search term for products"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of facet",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Facet"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input value"
+          }
+        }
+      }
+    },
+    "/cart": {
+      "get": {
+        "summary": "Products in cart",
+        "description": "List of all products in the shopping cart",
+        "tags": [
+          "cart"
+        ],
+        "responses": {
+          "200": {
+            "description": "List of products in cart",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Cart"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cart/add": {
+      "post": {
+        "summary": "Add product to cart",
+        "description": "Add product and amount to cart",
+        "tags": [
+          "cart"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "product",
+            "description": "Reference to product and amount",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "amount": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully added product to cart"
+          }
+        }
+      }
+    },
+    "/cart/clear": {
+      "post": {
+        "summary": "Remove all products from cart",
+        "description": "Remove all products from cart",
+        "tags": [
+          "cart"
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully removed all products from cart"
+          }
+        }
+      }
+    },
+    "/cart/checkout": {
+      "post": {
+        "summary": "Checkout cart",
+        "description": "Checkout all products in cart",
+        "tags": [
+          "cart"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "product",
+            "description": "Reference to product and amount",
+            "schema": {
+              "$ref": "#/definitions/Checkout"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully added product to cart"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Logs user into the system",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "credentials",
+            "description": "User credentials",
+            "schema": {
+              "$ref": "#/definitions/Credentials"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Auth"
+            }
+          },
+          "400": {
+            "description": "Invalid username/password supplied"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Logs out current logged in user session",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/user/me": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Get user by user name",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/projects": {
+      "get": {
+        "tags": [
+          "projects"
+        ],
+        "summary": "Get list of stored projects",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Project"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/orders": {
+      "get": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "Get list of orders",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Order"
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/orders/{id}": {
+      "get": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "Get list of orders",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/OrderDetails"
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+
+    "/invoices": {
+      "get": {
+        "tags": [
+          "invoices"
+        ],
+        "summary": "List of invoices",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Invoice"
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/invoices/{id}": {
+      "get": {
+        "tags": [
+          "invoices"
+        ],
+        "summary": "Invoice details",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/InvoiceDetail"
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    }
+
+  },
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "in": "authorization-header",
+      "authenticationScheme": "Bearer"
+    }
+  },
+  "definitions": {
+    "Product": {
+      "type": "object",
+      "required": [
+        "id",
+        "title"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        }
+      }
+    },
+    "ProductVariant": {
+      "type": "object",
+      "required": [
+        "id",
+        "size"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "size": {
+          "type": "string"
+        },
+        "price": {
+          "type": "string"
+        },
+        "delivery": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "string"
+        }
+      }
+    },
+    "Auth": {
+      "type": "object",
+      "required": [
+        "token"
+      ],
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "Credentials": {
+      "type": "object",
+      "required": [
+        "username",
+        "password"
+      ],
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "required": [
+        "username",
+        "fullname"
+      ],
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "fullname": {
+          "type": "string"
+        }
+      }
+    },
+    "Facet": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "values"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FacetValue"
+          }
+        }
+      }
+    },
+    "FacetValue": {
+      "type": "object",
+      "required": [
+        "name",
+        "count"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "count": {
+          "type": "integer"
+        }
+      }
+    },
+    "Cart": {
+      "type": "object",
+      "required": [
+        "name",
+        "count"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "count": {
+          "type": "integer"
+        }
+      }
+    },
+    "Checkout": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "project": {
+          "$ref": "#/definitions/Project"
+        },
+        "date": {
+          "type": "string"
+        },
+        "reference": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "Address": {
+      "type": "object",
+      "required": [
+        "name",
+        "count"
+      ],
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "zipCode": {
+          "type": "string"
+        },
+        "place": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        }
+      }
+    },
+    "PickUp": {
+      "type": "object",
+      "required": [
+        "address",
+        "count"
+      ],
+      "properties": {
+        "contact": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "location": {
+          "$ref": "#/definitions/Address"
+        }
+      }
+    },
+    "Project": {
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "pickUp": {
+          "$ref": "#/definitions/PickUp"
+        },
+        "deliver": {
+          "$ref": "#/definitions/Address"
+        }
+      }
+    },
+    "Suggestion": {
+      "type": "object",
+      "required": [
+        "name",
+        "type",
+        "link"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "PRODUCT"
+          ]
+        },
+        "link": {
+          "type": "string"
+        }
+      }
+    },
+    "Order": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "reference": {
+          "type": "string"
+        },
+        "establishment": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "OrderDetails": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Order"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "erpId": {
+              "type": "string"
+            },
+            "amount": {
+              "type": "number"
+            },
+            "location": {
+              "type": "string"
+            },
+            "method": {
+              "type": "string",
+              "enum": ["ACCOUNT"]
+            },
+            "project": {
+              "$ref": "#/definitions/Project"
+            },
+            "products": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Product"
+              }
+            }
+          }
+        }
+      ]
+    },
+
+    "Invoice":{
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "number"
+        },
+        "reference": {
+          "type": "number"
+        },
+        "location": {
+          "type": "string"
+        },
+        "open": {
+          "type": "number"
+        }
+      }
+    },
+
+    "InvoiceDetail":{
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Invoice"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "products": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Product"
+              }
+            }
+          }
+        }
+      ]
+    }
+
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}

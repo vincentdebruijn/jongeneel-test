@@ -1,0 +1,19 @@
+{
+  "name": "jongeneel-test",
+  "version": "1.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "fast-html-parser": "^1.0.1",
+    "node-fetch": "^1.7.1",
+    "parse5": "^3.0.2"
+  },
+  "devDependencies": {
+    "mocha": "^3.5.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "mocha"
+  },
+  "flat": true
+}
