@@ -11,9 +11,7 @@
       "get": {
         "summary": "Product list ",
         "description": "List of products that matches the search term",
-        "tags": [
-          "products"
-        ],
+        "tags": ["products"],
         "parameters": [
           {
             "in": "query",
@@ -35,9 +33,7 @@
             "name": "sort",
             "description": "Search term for products",
             "type": "string",
-            "enum": [
-              "relevanceOrdered"
-            ]
+            "enum": ["relevanceOrdered"]
           }
         ],
         "responses": {
@@ -66,9 +62,7 @@
       "get": {
         "summary": "Product details",
         "description": "Details of a product",
-        "tags": [
-          "products"
-        ],
+        "tags": ["products"],
         "parameters": [
           {
             "name": "id",
@@ -110,9 +104,7 @@
       "get": {
         "summary": "Search suggestions",
         "description": "List of search suggestions based on search term search term",
-        "tags": [
-          "suggestions"
-        ],
+        "tags": ["suggestions"],
         "parameters": [
           {
             "in": "query",
@@ -146,9 +138,7 @@
       "get": {
         "summary": "Facets list ",
         "description": "List of all facets for a search term",
-        "tags": [
-          "facets"
-        ],
+        "tags": ["facets"],
         "parameters": [
           {
             "in": "query",
@@ -176,9 +166,7 @@
       "get": {
         "summary": "Products in cart",
         "description": "List of all products in the shopping cart",
-        "tags": [
-          "cart"
-        ],
+        "tags": ["cart"],
         "responses": {
           "200": {
             "description": "List of products in cart",
@@ -196,9 +184,7 @@
       "post": {
         "summary": "Add product to cart",
         "description": "Add product and amount to cart",
-        "tags": [
-          "cart"
-        ],
+        "tags": ["cart"],
         "parameters": [
           {
             "in": "body",
@@ -228,9 +214,7 @@
       "post": {
         "summary": "Remove all products from cart",
         "description": "Remove all products from cart",
-        "tags": [
-          "cart"
-        ],
+        "tags": ["cart"],
         "responses": {
           "204": {
             "description": "Successfully removed all products from cart"
@@ -242,9 +226,7 @@
       "post": {
         "summary": "Checkout cart",
         "description": "Checkout all products in cart",
-        "tags": [
-          "cart"
-        ],
+        "tags": ["cart"],
         "parameters": [
           {
             "in": "body",
@@ -264,13 +246,9 @@
     },
     "/auth/login": {
       "post": {
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "summary": "Logs user into the system",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "body",
@@ -296,13 +274,9 @@
     },
     "/auth/logout": {
       "post": {
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "summary": "Logs out current logged in user session",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [],
         "responses": {
           "default": {
@@ -313,14 +287,10 @@
     },
     "/user/me": {
       "get": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "Get user by user name",
         "description": "",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -339,14 +309,10 @@
     },
     "/projects": {
       "get": {
-        "tags": [
-          "projects"
-        ],
+        "tags": ["projects"],
         "summary": "Get list of stored projects",
         "description": "",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -368,14 +334,10 @@
     },
     "/orders": {
       "get": {
-        "tags": [
-          "orders"
-        ],
+        "tags": ["orders"],
         "summary": "Get list of orders",
         "description": "",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -394,14 +356,10 @@
     },
     "/orders/{id}": {
       "get": {
-        "tags": [
-          "orders"
-        ],
+        "tags": ["orders"],
         "summary": "Get list of orders",
         "description": "",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -421,14 +379,10 @@
 
     "/invoices": {
       "get": {
-        "tags": [
-          "invoices"
-        ],
+        "tags": ["invoices"],
         "summary": "List of invoices",
         "description": "",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -447,14 +401,10 @@
     },
     "/invoices/{id}": {
       "get": {
-        "tags": [
-          "invoices"
-        ],
+        "tags": ["invoices"],
         "summary": "Invoice details",
         "description": "",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -471,7 +421,6 @@
         }
       }
     }
-
   },
   "securityDefinitions": {
     "api_key": {
@@ -483,10 +432,7 @@
   "definitions": {
     "Product": {
       "type": "object",
-      "required": [
-        "id",
-        "title"
-      ],
+      "required": ["id", "title"],
       "properties": {
         "id": {
           "type": "string"
@@ -504,10 +450,7 @@
     },
     "ProductVariant": {
       "type": "object",
-      "required": [
-        "id",
-        "size"
-      ],
+      "required": ["id", "size"],
       "properties": {
         "id": {
           "type": "string"
@@ -528,9 +471,7 @@
     },
     "Auth": {
       "type": "object",
-      "required": [
-        "token"
-      ],
+      "required": ["token"],
       "properties": {
         "token": {
           "type": "string"
@@ -539,10 +480,7 @@
     },
     "Credentials": {
       "type": "object",
-      "required": [
-        "username",
-        "password"
-      ],
+      "required": ["username", "password"],
       "properties": {
         "username": {
           "type": "string"
@@ -554,10 +492,7 @@
     },
     "User": {
       "type": "object",
-      "required": [
-        "username",
-        "fullname"
-      ],
+      "required": ["username", "fullname"],
       "properties": {
         "username": {
           "type": "string"
@@ -569,11 +504,7 @@
     },
     "Facet": {
       "type": "object",
-      "required": [
-        "id",
-        "name",
-        "values"
-      ],
+      "required": ["id", "name", "values"],
       "properties": {
         "id": {
           "type": "string"
@@ -591,10 +522,7 @@
     },
     "FacetValue": {
       "type": "object",
-      "required": [
-        "name",
-        "count"
-      ],
+      "required": ["name", "count"],
       "properties": {
         "name": {
           "type": "string"
@@ -609,10 +537,7 @@
     },
     "Cart": {
       "type": "object",
-      "required": [
-        "name",
-        "count"
-      ],
+      "required": ["name", "count"],
       "properties": {
         "id": {
           "type": "string"
@@ -627,9 +552,7 @@
     },
     "Checkout": {
       "type": "object",
-      "required": [
-        "name"
-      ],
+      "required": ["name"],
       "properties": {
         "project": {
           "$ref": "#/definitions/Project"
@@ -647,10 +570,7 @@
     },
     "Address": {
       "type": "object",
-      "required": [
-        "name",
-        "count"
-      ],
+      "required": ["name", "count"],
       "properties": {
         "address": {
           "type": "string"
@@ -668,10 +588,7 @@
     },
     "PickUp": {
       "type": "object",
-      "required": [
-        "address",
-        "count"
-      ],
+      "required": ["address", "count"],
       "properties": {
         "contact": {
           "type": "string"
@@ -686,10 +603,7 @@
     },
     "Project": {
       "type": "object",
-      "required": [
-        "id",
-        "name"
-      ],
+      "required": ["id", "name"],
       "properties": {
         "id": {
           "type": "string"
@@ -707,20 +621,14 @@
     },
     "Suggestion": {
       "type": "object",
-      "required": [
-        "name",
-        "type",
-        "link"
-      ],
+      "required": ["name", "type", "link"],
       "properties": {
         "name": {
           "type": "string"
         },
         "type": {
           "type": "string",
-          "enum": [
-            "PRODUCT"
-          ]
+          "enum": ["PRODUCT"]
         },
         "link": {
           "type": "string"
@@ -783,7 +691,7 @@
       ]
     },
 
-    "Invoice":{
+    "Invoice": {
       "type": "object",
       "properties": {
         "id": {
@@ -807,7 +715,7 @@
       }
     },
 
-    "InvoiceDetail":{
+    "InvoiceDetail": {
       "type": "object",
       "allOf": [
         {
@@ -826,7 +734,6 @@
         }
       ]
     }
-
   },
   "externalDocs": {
     "description": "Find out more about Swagger",
